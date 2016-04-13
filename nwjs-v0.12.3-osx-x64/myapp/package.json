@@ -1,0 +1,26 @@
+{
+    "name": "nwk-ngApp",
+    "version": "0.0.1",
+    "description": "An Angular node-webkit application",
+    "main": "index.html",
+    "private": true,
+    "keywords": [
+        "node",
+        "webkit",
+        "win",
+        "osx"
+    ],
+    "window": {
+        "toolbar": true,
+        "resizable": false,
+        "width": 850,
+        "height": 490,
+        "min_width": 600,
+        "min_height": 400,
+        "max_width": 1000,
+        "max_height": 600,
+        "position": "center"
+    },
+    "author": "simone a",
+    "license": ""
+}

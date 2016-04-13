@@ -1,0 +1,172 @@
+<div ng-controller="homeCtrl">
+	<div class="algo_list_left">
+		<table id="table_manage_fav_page" style="width:100%;color: #fff;border-radius: 16px;table-layout: fixed;">
+	        <tr ng-mouseover="change_hover_class(key)" ng-repeat="(key,value) in dataAlgos" style="height:68px" class="table_fav_tr">
+	          	<td style="width:68px;position:relative"> 
+	          		<img ng-click="removeAlgo(key)" class="icon-close" src="img/close_ico.png" height="16" width="16">
+		            <div class="pull-left thumb-sm avatar m-r">
+		              	<div class="hexagon_algo" style="background-image: url(img/algos/default.png); background-repeat: no-repeat;z-index:4;position:absolute;background-color: #424345;margin-left:16px"></div>
+		              	<div class="hexagon_algo" style="background-image: url(img/algos/{{value.algoImg}}.png); background-repeat: no-repeat;z-index:8;margin-left:16px"></div>
+		            </div>
+	          	</td>
+	          <td>
+	          	<div class="algo_text_name">{{value.algoName}}<img ng-click="renameAlgo()" class="fa fa-pencil fa-1" height="16" width="16"></div>
+	          	<div class="algo_text_type">{{value.algoType}}</div>
+	          </td>
+	        </tr>
+	      </table>
+	</div>
+	<div class="algo_detail_right">
+		<div class="test_algo">
+			<div class="test_algo_left_line_container">
+				<div class="test_algo_left_line_first"></div>
+				<div class="test_algo_left_line_second" ng-if="dataCurrentAlgos.integrationTest.actionSkipped"></div>
+				<div class="test_algo_circle">1</div>
+				<div class="test_algo_circle_done"></div>
+			</div>
+			<div class="test_algo_detail_container">
+				<div class="test_algo_label">Integration Test</div>
+				<div class="row test_algo_console">
+					<div class="col-xs-4" 
+						ng-class="{ 
+							'test_algo_console_error': dataCurrentAlgos.integrationTest.statusValue == -1,
+							'test_algo_console_todo': dataCurrentAlgos.integrationTest.statusValue == 0,
+							'test_algo_console_running': dataCurrentAlgos.integrationTest.statusValue == 1,
+							'test_algo_console_done': dataCurrentAlgos.integrationTest.statusValue == 2
+						}" 
+					>{{dataCurrentAlgos.integrationTest.statusLabel}}</div>
+					<div class="test_algo_console_label">
+						<div class="test_algo_console_label_val">T</div>
+					</div>
+					<div class="col-xs-2 test_algo_console_cpu">
+						<div class="test_algo_console_cpu_label">Cpu</div>
+						<div class="test_algo_console_cpu_value">{{dataCurrentAlgos.integrationTest.cpu}}</div>
+					</div>
+					<div class="col-xs-2 test_algo_console_ram">
+						<div class="test_algo_console_ram_label">Ram</div>
+						<div class="test_algo_console_ram_value">{{dataCurrentAlgos.integrationTest.ram}}</div>
+					</div>
+					<div class="col-xs-2 test_algo_console_ram_rate">
+						<div class="test_algo_console_ram_rate_label">Ram Incr.</div>
+						<div class="test_algo_console_ram_rate_value">{{dataCurrentAlgos.integrationTest.ramInc}}</div>
+					</div>
+					<div class="col-xs-1 test_algo_console_actions">
+						<div class="test_algo_console_reload">
+							<img ng-click="reloadIntegrationTest()" style="margin-top:8px" src="img/reload.png" height="16" width="16">
+						</div>
+						<div class="test_algo_console_skip">
+							<img ng-click="skipIntegrationTest()" style="margin-top:8px" src="img/next-arrow.png" height="14" width="14">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- BETA SERVER -->
+
+		<div class="beta_server_algo" ng-if="dataCurrentAlgos.integrationTest.actionSkipped">
+			<div class="beta_server_algo_left_line_container">
+				<div class="beta_server_algo_left_line_first"></div>
+				<div class="beta_server_left_line_second" ng-if="dataCurrentAlgos.betaTest.actionSkipped"></div>
+				<div class="beta_server_algo_circle">2</div>
+				<div class="beta_server_algo_circle_done"></div>
+			</div>
+			<div class="beta_server_algo_detail_container">
+				<div class="beta_server_algo_label">Beta Test</div>
+				<div class="row beta_server_algo_console">
+					<div class="col-xs-4"
+						ng-class="{ 
+							'beta_server_algo_console_error': dataCurrentAlgos.betaTest.statusValue == -1,
+							'beta_server_algo_console_todo': dataCurrentAlgos.betaTest.statusValue == 0,
+							'beta_server_algo_console_deployed': dataCurrentAlgos.betaTest.statusValue == 1,
+							'beta_server_algo_console_running': dataCurrentAlgos.betaTest.statusValue == 2,
+							'beta_server_algo_console_stopped': dataCurrentAlgos.betaTest.statusValue == 3
+						}" 
+					>{{dataCurrentAlgos.betaTest.statusLabel}}</div>
+					<div class="beta_server_algo_console_label">
+						<div class="beta_server_algo_console_label_val">T</div>
+					</div>
+					<div class="col-xs-2 beta_server_algo_console_cpu">
+						<div class="beta_server_algo_console_cpu_label">Cpu</div>
+						<div class="beta_server_algo_console_cpu_value">{{dataCurrentAlgos.betaTest.cpu}}</div>
+					</div>
+					<div class="col-xs-2 beta_server_algo_console_ram">
+						<div class="beta_server_algo_console_ram_label">Ram</div>
+						<div class="beta_server_algo_console_ram_value">{{dataCurrentAlgos.betaTest.ram}}</div>
+					</div>
+					<div class="col-xs-2 beta_server_algo_console_ram_rate">
+						<!--<div class="beta_server_algo_console_ram_rate_label">Ram Incr.</div>
+						<div class="beta_server_algo_console_ram_rate_value">20%</div>-->
+					</div>
+					<div class="col-xs-1 beta_server_algo_console_actions">
+						<div class="beta_server_algo_console_manage">
+							<img ng-click="manageBetaAlgo()" style="margin-top:8px" src="img/reload.png" height="16" width="16">
+							<!-- deploy, start, stop -->
+						</div>
+						<div class="beta_server_algo_console_skip">
+							<img ng-click="skipBetaTest()" style="margin-top:8px" src="img/next-arrow.png" height="14" width="14">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- BETA SERVER -->
+
+		<!-- PROD SERVER -->
+
+		<div class="prod_server_algo" ng-if="dataCurrentAlgos.betaTest.actionSkipped">
+			<div class="prod_server_algo_left_line_container">
+				<div class="prod_server_algo_left_line_first"></div>
+				<div class="prod_server_algo_left_line_second"></div>
+				<div class="prod_server_algo_circle">3</div>
+				<div class="prod_server_algo_circle_done"></div>
+			</div>
+			<div class="prod_server_algo_detail_container">
+				<div class="prod_server_algo_label">Production</div>
+				<div class="row prod_server_algo_console">
+					<div class="col-xs-4" ng-class="{ 
+							'prod_server_algo_console_error': dataCurrentAlgos.prod.statusValue == -1,
+							'prod_server_algo_console_todo': dataCurrentAlgos.prod.statusValue == 0,
+							'prod_server_algo_console_deployed': dataCurrentAlgos.prod.statusValue == 1,
+							'prod_server_algo_console_running': dataCurrentAlgos.prod.statusValue == 2,
+							'prod_server_algo_console_stopped': dataCurrentAlgos.prod.statusValue == 3
+						}" >{{dataCurrentAlgos.prod.statusLabel}}</div>
+					<div class="prod_server_algo_console_label">
+						<div class="prod_server_algo_console_label_val">T</div>
+					</div>
+					<div class="col-xs-2 prod_server_algo_console_cpu">
+						<div class="prod_server_algo_console_cpu_label">Cpu</div>
+						<div class="prod_server_algo_console_cpu_value">{{dataCurrentAlgos.betaTest.cpu}}</div>
+					</div>
+					<div class="col-xs-2 prod_server_algo_console_ram">
+						<div class="prod_server_algo_console_ram_label">Ram</div>
+						<div class="prod_server_algo_console_ram_value">{{dataCurrentAlgos.betaTest.ram}}</div>
+					</div>
+					<div class="col-xs-2 prod_server_algo_console_ram_rate">
+						<!--<div class="prod_server_algo_console_ram_rate_label">Ram Incr.</div>
+						<div class="prod_server_algo_console_ram_rate_value">20%</div>-->
+					</div>
+					<div class="col-xs-1 prod_server_algo_console_actions">
+						<div class="prod_server_algo_console_manage">
+							<img ng-click="manageBetaAlgo()" style="margin-top:8px" src="img/reload.png" height="16" width="16">
+							<!-- deploy, start, stop -->
+						</div>
+						<div class="prod_server_algo_console_skip">
+							<img ng-click="skipBetaTest()" style="margin-top:8px" src="img/next-arrow.png" height="14" width="14">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- PROD SERVER -->
+
+	</div>
+</div>
+
+
+        
+
+
